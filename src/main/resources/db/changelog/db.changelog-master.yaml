@@ -1,0 +1,6 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-placeholder
+      author: your_username
+      changes:
+        - comment: No changes, placeholder changeset
