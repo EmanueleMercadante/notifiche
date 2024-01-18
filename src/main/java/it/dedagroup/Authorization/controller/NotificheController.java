@@ -29,10 +29,10 @@ public class NotificheController {
 	}
 	
 	
-	@GetMapping
-	public ResponseEntity<String> getAllNotifiche(){
-		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-	}
+//	@GetMapping
+//	public ResponseEntity<String> getAllNotifiche(){
+//		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+//	}
 	
 	
 	
