@@ -19,4 +19,5 @@ public class ErrorHandlerConsumerRabbitMQ implements RabbitListenerErrorHandler 
 		log.error("Errore. Messaggio scartato.", e);
 		return null;
 	}
-}
+} 
+
