@@ -15,20 +15,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class NotificaServiceImpl implements NotificaService{
 	
-	private final NotificaRepository NRepository;
-	private final NotificaMapper NMapper;
+	private final NotificaRepository notificaRepository;
+	private final NotificaMapper notificaMapper;
 	
 	
 	@Override
-	public NotificaDTO creaNotifica(NotificaDTO n) {
-		Notifica nEntity = NMapper.toEntity(n);
-		Notifica notifica = NRepository.findByMessaggio(nEntity.getMessaggio()).orElse(null);
-		if (notifica == null) {
-			NRepository.save(nEntity);
-			return n;
-		} else {
-			throw new RuntimeException("La notifica gia esiste!");
-		}
+	public NotificaDTO creaNotifica(NotificaDTO notificaDTO) {
+		Notifica notificaEntity = notificaMapper.toEntity(notificaDTO);
+		
+		notificaRepository.findByMessaggio(notificaEntity.getMessaggio())           //ritorna un Optional<Notifica>
+	    .ifPresentOrElse(
+	        notifica -> { throw new RuntimeException("La notifica già esiste!"); }, //se presente
+	        () -> { notificaRepository.save(notificaEntity); } 						//se vuoto
+	    );
+		
+		return notificaDTO;
 	}
 
 	@Override

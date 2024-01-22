@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import it.dedagroup.Authorization.dto.NotificaDTO;
+import it.dedagroup.Authorization.producer.NotificheProducer;
 import it.dedagroup.Authorization.service.NotificaService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +15,18 @@ import lombok.RequiredArgsConstructor;
 public class NotificaFacade {
 	
 	@Autowired
-	NotificaService NService;
+	NotificaService notificaService;
+	
+	@Autowired
+	NotificheProducer notificheProducer;
 	
 	
-	public NotificaDTO aggiungiNotifica(NotificaDTO NDTO) {
-		return NService.creaNotifica(NDTO);
+	public NotificaDTO aggiungiNotifica (NotificaDTO notificaDTO) {
+		return notificaService.creaNotifica(notificaDTO);
+	}
+	
+	public String inviaNotifica (String queueName, NotificaDTO notificaDTO) {
+		return notificheProducer.sendMessage(queueName, notificaDTO);
 	}
 	
 }
