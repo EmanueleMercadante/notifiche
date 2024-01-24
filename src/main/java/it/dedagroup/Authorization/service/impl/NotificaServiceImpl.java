@@ -1,6 +1,7 @@
 package it.dedagroup.Authorization.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -34,8 +35,10 @@ public class NotificaServiceImpl implements NotificaService{
 
 	@Override
 	public List<NotificaDTO> listaNotifiche() {
-		// TODO Auto-generated method stub
-		return null;
+	    List<Notifica> notifiche = notificaRepository.findAll();
+	    return notifiche.stream()
+	            .map(notificaMapper::toDto)
+	            .collect(Collectors.toList());
 	}
 	
 

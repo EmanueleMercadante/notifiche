@@ -5,10 +5,10 @@ import org.mapstruct.Mapper;
 import it.dedagroup.Authorization.dto.NotificaDTO;
 import it.dedagroup.Authorization.model.Notifica;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface NotificaMapper {
 
 	Notifica toEntity(NotificaDTO nDTO);
 	
-	NotificaDTO toDTO(Notifica notifica);
+	NotificaDTO toDto(Notifica notifica);
 }

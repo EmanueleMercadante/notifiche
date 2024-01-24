@@ -24,4 +24,9 @@ public class RabbitMQConfig {
     Queue notificheQueue() {
         return new Queue("notifiche", true);
     }
+	
+	@Bean
+    Queue feedbackQueue() {
+        return new Queue("feedback", true);
+    }
 }
