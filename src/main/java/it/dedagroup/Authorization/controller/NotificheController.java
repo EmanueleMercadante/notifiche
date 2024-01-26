@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.dedagroup.Authorization.dto.NotificaDTO;
 import it.dedagroup.Authorization.facade.NotificaFacade;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/notifica")
 public class NotificheController {

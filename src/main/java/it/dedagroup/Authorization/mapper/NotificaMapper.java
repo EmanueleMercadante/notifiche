@@ -8,7 +8,7 @@ import it.dedagroup.Authorization.model.Notifica;
 @Mapper(componentModel = "spring")
 public interface NotificaMapper {
 
-	Notifica toEntity(NotificaDTO nDTO);
+	Notifica toEntity(NotificaDTO notificaDTO);
 	
 	NotificaDTO toDto(Notifica notifica);
 }
