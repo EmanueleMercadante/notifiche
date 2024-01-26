@@ -1,7 +1,5 @@
 package it.dedagroup.Authorization.dto;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
 import it.dedagroup.Authorization.enums.NotificaType;
 import lombok.Data;
 
