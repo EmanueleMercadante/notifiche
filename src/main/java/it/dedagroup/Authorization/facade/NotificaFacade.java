@@ -1,11 +1,15 @@
 package it.dedagroup.Authorization.facade;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import it.dedagroup.Authorization.dto.NotificaDTO;
+import it.dedagroup.Authorization.model.Notifica;
 import it.dedagroup.Authorization.producer.NotificheProducer;
 import it.dedagroup.Authorization.service.NotificaService;
 import lombok.AllArgsConstructor;
@@ -31,14 +35,19 @@ public class NotificaFacade {
 		return notificheProducer.sendMessage(queueName, notificaDTO);
 	}
 	
-	public List<NotificaDTO> listaNotifiche(){
-		List<NotificaDTO> listaNotificheDTO = notificaService.listaNotifiche();
+	public List<Notifica> listaNotifiche(){
+		List<Notifica> listaNotifiche = notificaService.listaNotifiche();
 		
-		if (listaNotificheDTO.isEmpty()) {
+		if (listaNotifiche.isEmpty()) {
 			 log.info("Non sono presenti notifiche nel db");
 		}
 		
-		return listaNotificheDTO;
+		return listaNotifiche;
+	}
+
+	public Notifica rimuoviNotifica(UUID id) {
+		if(id != null) return notificaService.rimuoviNotifica(id);
+		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID non valido");
 	}
 	
 }

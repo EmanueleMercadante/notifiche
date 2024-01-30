@@ -1,9 +1,12 @@
 package it.dedagroup.Authorization.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import it.dedagroup.Authorization.dto.NotificaDTO;
 import it.dedagroup.Authorization.mapper.NotificaMapper;
@@ -34,12 +37,18 @@ public class NotificaServiceImpl implements NotificaService{
 	}
 
 	@Override
-	public List<NotificaDTO> listaNotifiche() {
-	    List<Notifica> notifiche = notificaRepository.findAll();
-	    return notifiche.stream()
-	            .map(notificaMapper::toDto)
+	public List<Notifica> listaNotifiche() {
+	    return notificaRepository.findAll().stream()
+	            .filter(notifica -> !notifica.isCancellato())
 	            .collect(Collectors.toList());
 	}
-	
 
+	@Override
+	public Notifica rimuoviNotifica(UUID id) {
+		Notifica notifica = notificaRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Notifica non trovata"));
+
+		notifica.setCancellato(true);
+		notificaRepository.save(notifica);
+		return notifica;
+	}
 }

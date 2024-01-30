@@ -24,6 +24,7 @@ public class FilterChainManager {
         httpSecurity.csrf(t -> t.disable())
                 .authorizeHttpRequests(req -> req
 //                      .requestMatchers("/all/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole(Ruolo.ADMIN.toString())
                         .requestMatchers("/notifica/**").hasAnyRole(Ruolo.CLIENTE.toString(), Ruolo.ADMIN.toString())
                         .requestMatchers("/utente/**").permitAll()
                         .anyRequest().authenticated())

@@ -33,8 +33,10 @@ public class UtenteServiceImpl implements UtenteService {
 	
 	@Override
 	public Utente loginUtente(LoginDTO loginDTO) {
-		return utenteRepository.findByEmailAndPassword(loginDTO.getEmail(), loginDTO.getPassword())
-				.orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST,"Nessun utente trovato con queste credenziali"));
+		Utente utente = utenteRepository.findByEmailAndPassword(loginDTO.getEmail(), loginDTO.getPassword())
+				.orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Nessun utente trovato con queste credenziali"));
+		if(utente.isCancellato()) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Accesso non autorizzato");
+		return utente;
 	}
 
 }

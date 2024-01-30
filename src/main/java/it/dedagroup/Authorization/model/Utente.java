@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import it.dedagroup.Authorization.enums.Ruolo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +30,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "Utente")
+@EntityListeners(AuditingEntityListener.class)
 public class Utente implements UserDetails{
 
 	@Id
@@ -44,6 +47,8 @@ public class Utente implements UserDetails{
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private Ruolo ruolo;
+	@Column
+    private boolean isCancellato = false;
 	
 	@CreatedDate
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -53,34 +58,35 @@ public class Utente implements UserDetails{
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime dataModifica;
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority("ROLE_" + ruolo));
-	}
 
-	@Override
-	public String getUsername() {
-		return email;
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + ruolo));
+    }
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
+    @Override
+    public String getUsername() {
+        return email;
+    }
 
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonExpired() {
+        return !isCancellato;
+    }
 
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
+    @Override
+    public boolean isAccountNonLocked() {
+        return !isCancellato;
+    }
 
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-	
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return !isCancellato;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return !isCancellato;
+    }
+
 }

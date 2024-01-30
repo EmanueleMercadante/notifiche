@@ -5,11 +5,13 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import it.dedagroup.Authorization.enums.NotificaType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +25,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "Notifica")
+@EntityListeners(AuditingEntityListener.class)
 public class Notifica {
 	
 	@Id
@@ -46,5 +49,8 @@ public class Notifica {
 	@LastModifiedDate
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime dataModifica;
+	
+	@Column
+	private boolean isCancellato = false;
 
 }
